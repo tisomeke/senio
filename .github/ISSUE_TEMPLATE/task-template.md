@@ -8,8 +8,6 @@ type: Task
 
 ---
 
-### [Task name]
-
 **Goal:** what is needed and why.
 
 **Complete:**
