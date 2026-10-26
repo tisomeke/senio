@@ -1,6 +1,8 @@
 services:
   web:
     build: .
+    env_file:
+      - .env
     volumes:
       - .:/app:Z
     command: python manage.py runserver 0.0.0.0:8000
