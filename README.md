@@ -69,13 +69,28 @@ WIP
 ### Установка
 
 1. Клонируйте репозиторий и перейдите в его директорию.
-2. Соберите образ и запустите приложение:
+2. Создайте `.env` из шаблона:
 
-   ```bash
-   sudo docker compose up --build
-   ```
+    ```bash
+    cp .env.example .env
+    ```
 
-3. Откройте в браузере [http://localhost:8000](http://localhost:8000).
+3. Сгенерируйте секретный ключ и положите значение в `.env`:
+
+    ```bash
+    python3 -c 'import secrets; print(secrets.token_urlsafe(50))'
+    ```
+
+> [!IMPORTANT]
+> Важно: каждый разработчик создаёт свой .env; ключи нельзя раскрывать в git.
+
+4. Соберите образ и запустите приложение:
+
+    ```bash
+    sudo docker compose up --build
+    ```
+
+5. Откройте в браузере [http://localhost:8000](http://localhost:8000).
 
 При успешном запуске отобразится страница Senio.
 
