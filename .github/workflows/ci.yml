@@ -16,8 +16,12 @@ jobs:
       - name: Checkout repository # downloading code to the runner
         uses: actions/checkout@v4
 
+      # Official way to run actionlint: download script from rhysd/actionlint
       - name: Lint workflow files with actionlint # catches errors in CI config itself
-        uses: rhysd/actionlint-action@v1
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+        shell: bash
 
   # Docker build and checks inside the container
   docker-ci:
