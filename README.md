@@ -104,5 +104,11 @@ WIP
 sudo docker compose run --rm web python manage.py check
 ```
 
+### Линтинг кода
+
+```bash
+sudo docker compose run --rm web ruff check .
+```
+
 ## Лицензия
 [**MIT**](LICENSE)
