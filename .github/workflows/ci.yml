@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # Fast checks that need no Docker; they run before the heavy image build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository # downloading code to the runner
+        uses: actions/checkout@v4
+
+      # Official way to run actionlint: download script from rhysd/actionlint
+      - name: Lint workflow files with actionlint # catches errors in CI config itself
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+        shell: bash
+
+  # Docker build and checks inside the container
+  docker-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository # downloading code to the runner
+        uses: actions/checkout@v4
+
+      - name: Copy env
+        run: cp .env.example .env
+
+      - name: Docker compose config
+        run: docker compose config
+
+      - name: Docker compose build
+        run: docker compose build
+
+      - name: Run ruff linter # static checks of Python code (config in pyproject.toml)
+        run: docker compose run --rm web ruff check .
+
+      - name: Run Django system checks
+        run: docker compose run --rm web python manage.py check

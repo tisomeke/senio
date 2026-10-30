@@ -1,0 +1,8 @@
+# Ruff linter configuration: https://docs.astral.sh/ruff/
+[tool.ruff]
+target-version = "py313"
+line-length = 80
+
+[tool.ruff.lint]
+# Ruff default rules (pycodestyle errors subset + pyflakes) plus import sorting
+select = ["E4", "E7", "E9", "F", "I"]
