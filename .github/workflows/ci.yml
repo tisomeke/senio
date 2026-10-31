@@ -16,8 +16,8 @@ jobs:
       - name: Checkout repository # downloading code to the runner
         uses: actions/checkout@v4
 
-      # Official way to run actionlint
-      - name: Lint workflow files with actionlint
+      # Official way to run actionlint: download script from rhysd/actionlint
+      - name: Lint workflow files with actionlint # catches errors in CI config itself
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color
@@ -27,13 +27,19 @@ jobs:
   docker-ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository # downloading code to the runner
         uses: actions/checkout@v4
 
-      - name: Build Docker image
+      - name: Copy env
+        run: cp .env.example .env
+
+      - name: Docker compose config
+        run: docker compose config
+
+      - name: Docker compose build
         run: docker compose build
 
-      - name: Run ruff linter
+      - name: Run ruff linter # static checks of Python code (config in pyproject.toml)
         run: docker compose run --rm web ruff check .
 
       - name: Run Django system checks

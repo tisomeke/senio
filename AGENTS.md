@@ -104,6 +104,15 @@ README пока не реализованы; архитектура прилож
 Тестов пока нет; команда `python manage.py test` появится вместе с
 первыми тестами.
 
+-   `docker compose up --build` --- запуск приложения;
+-   `docker compose run --rm web python manage.py check` --- системные
+    проверки Django;
+-   `docker compose run --rm web ruff check .` --- линтинг
+    Python-кода (конфигурация в `pyproject.toml`).
+
+Тестов пока нет; команда `python manage.py test` появится вместе с
+первыми тестами.
+
 ```bash
 cp .env.example .env                                  # затем задай SECRET_KEY
 docker compose up --build                             # запуск: http://localhost:8000
