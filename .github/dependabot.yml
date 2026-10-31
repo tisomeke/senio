@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Weekly updates for Python packages from requirements.txt
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Weekly updates for GitHub Actions versions used in workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
