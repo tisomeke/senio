@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository # downloading code to the runner
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Official way to run actionlint: download script from rhysd/actionlint
       - name: Lint workflow files with actionlint # catches errors in CI config itself
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository # downloading code to the runner
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Copy env
         run: cp .env.example .env
