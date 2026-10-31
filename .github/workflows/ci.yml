@@ -9,20 +9,32 @@ permissions:
   contents: read
 
 jobs:
-  ci:
+  # Fast checks that need no Docker; they run before the heavy image build
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository # downloading code to the runner
         uses: actions/checkout@v4
 
-      - name: Copy env
-        run: cp .env.example .env
+      # Official way to run actionlint
+      - name: Lint workflow files with actionlint
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+        shell: bash
 
-      - name: Docker compose config
-        run: docker compose config
+  # Docker build and checks inside the container
+  docker-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Docker compose build
+      - name: Build Docker image
         run: docker compose build
+
+      - name: Run ruff linter
+        run: docker compose run --rm web ruff check .
 
       - name: Run Django system checks
         run: docker compose run --rm web python manage.py check
