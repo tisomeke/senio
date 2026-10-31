@@ -226,3 +226,7 @@ __marimo__/
 .codeassistant
 .codeassistantmodes
 .codeassistantignore
+
+# local files & local files dir
+LOCAL_FILES
+*.local.*
