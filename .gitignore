@@ -222,5 +222,14 @@ __marimo__/
 # Zed
 .zed
 
+# yandex sourcecraft
+.codeassistant
+.codeassistantmodes
+.codeassistantignore
+
+# local files & local files dir
+LOCAL_FILES
+*.local.*
+
 # Visual Studio
 .vs/
