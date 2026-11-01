@@ -1,4 +1,4 @@
-# AGENTS.md --- SENIO
+# AGENTS.md — SENIO
 
 Инструкции для ИИ-агентов, работающих с репозиторием SENIO. Этот файл
 описывает подтверждённое состояние репозитория на момент проверки;
@@ -6,7 +6,7 @@
 
 ## 1. Контекст проекта
 
-SENIO --- студенческий проект для организации, поиска и обмена учебными
+SENIO — студенческий проект для организации, поиска и обмена учебными
 материалами.
 
 **Текущее состояние:** проект вышел из стадии пустого репозитория.
@@ -26,29 +26,29 @@ AI-функций.
 
 ## 2. Структура репозитория
 
--   `README.md` --- основная страница проекта: описание, стек,
+-   `README.md` — основная страница проекта: описание, стек,
     инструкция запуска для разработчиков.
--   `config/` --- Django-проект (`settings.py`, `urls.py`, `asgi.py`,
+-   `config/` — Django-проект (`settings.py`, `urls.py`, `asgi.py`,
     `wsgi.py`).
--   `manage.py` --- утилита управления Django.
--   `requirements.txt` --- зависимости Python (Django 6.1,
+-   `manage.py` — утилита управления Django.
+-   `requirements.txt` — зависимости Python (Django 6.1,
     psycopg2-binary, ruff).
--   `Dockerfile`, `compose.yaml`, `.dockerignore` --- запуск в Docker.
--   `.env.example` --- шаблон переменных окружения (секреты в git не
+-   `Dockerfile`, `compose.yaml`, `.dockerignore` — запуск в Docker.
+-   `.env.example` — шаблон переменных окружения (секреты в git не
     хранить).
--   `.github/workflows/ci.yml` --- CI (GitHub Actions).
--   `.github/ISSUE_TEMPLATE/` --- шаблоны задач на русском и английском.
--   `dev-docs/git-workflow.md` --- правила веток, коммитов, Pull Request
+-   `.github/workflows/ci.yml` — CI (GitHub Actions).
+-   `.github/ISSUE_TEMPLATE/` — шаблоны задач на русском и английском.
+-   `dev-docs/git-workflow.md` — правила веток, коммитов, Pull Request
     и ревью. Следуй этому документу, не дублируй его здесь.
--   `docs/README.en.md` --- заготовка английской версии README (WIP).
--   `.agents/skills/` --- Skill'и для ИИ-агентов (например,
+-   `docs/README.en.md` — заготовка английской версии README (WIP).
+-   `.agents/skills/` — Skill'и для ИИ-агентов (например,
     `docs-maintenance`).
--   `static/img/mascot/` --- изображения и логотипы маскота Senka.
--   `.gitignore` --- исключения для Python/Django, окружений, тестовых
+-   `static/img/mascot/` — изображения и логотипы маскота Senka.
+-   `.gitignore` — исключения для Python/Django, окружений, тестовых
     артефактов и других локальных файлов.
--   `LICENSE` --- лицензия MIT.
--   `pyproject.toml` --- конфигурация линтера ruff.
--   `.github/dependabot.yml` --- еженедельные обновления pip и
+-   `LICENSE` — лицензия MIT.
+-   `pyproject.toml` — конфигурация линтера ruff.
+-   `.github/dependabot.yml` — еженедельные обновления pip и
     github-actions.
 
 Тестовая инфраструктура и конфигурация линтера в дереве отсутствуют.
@@ -70,7 +70,7 @@ AI-функций.
     настройках, имя базы, пользователь и пароль берутся из
     переменных окружения (`DB_NAME`, `DB_USER`, `DB_PASSWORD`,
     см. `.env.example`).
--   Frontend (Vanilla JS, Tailwind CSS, HTMX) --- запланирован
+-   Frontend (Vanilla JS, Tailwind CSS, HTMX) — запланирован
     в README, в коде отсутствует.
 
 Тесты в репозитории пока отсутствуют. Не придумывай несуществующие
@@ -93,12 +93,12 @@ AI-функций.
 Подтверждённые команды (всё через Docker, чтобы окружение совпадало
 с CI):
 
--   `docker compose up --build` --- запуск приложения;
--   `docker compose run --rm web python manage.py migrate` ---
+-   `docker compose up --build` — запуск приложения;
+-   `docker compose run --rm web python manage.py migrate` —
     применение миграций к PostgreSQL;
--   `docker compose run --rm web python manage.py check` --- системные
+-   `docker compose run --rm web python manage.py check` — системные
     проверки Django;
--   `docker compose run --rm web ruff check .` --- линтинг
+-   `docker compose run --rm web ruff check .` — линтинг
     Python-кода (конфигурация в `pyproject.toml`).
 
 Тестов пока нет; команда `python manage.py test` появится вместе с
@@ -129,7 +129,7 @@ docker compose run --rm web python manage.py check    # проверка кон�
 -   обрабатывай ошибки там, где их можно корректно обработать; не
     скрывай ошибки пустыми `except` и не используй `print` вместо
     принятого в проекте логирования;
--   храните конфигурацию отдельно от кода, а секреты --- только в
+-   храните конфигурацию отдельно от кода, а секреты — только в
     локальном окружении или предназначенном для них хранилище.
 
 Когда появятся реальные соглашения в коде или настройках инструментов,
@@ -235,3 +235,5 @@ docker compose run --rm web python manage.py check    # проверка кон�
     этом файле оставляй ссылку на него.
 -   Для аудита и сопровождения документации используй Skill
     `docs-maintenance` (`.agents/skills/docs-maintenance/SKILL.md`).
+-   В русской документации используй типографское тире «—» (em dash),
+    а не три дефиса «---».
