@@ -1,4 +1,4 @@
-# AGENTS.md – SENIO
+# AGENTS.md — SENIO
 
 Инструкции для ИИ-агентов, работающих с репозиторием SENIO. Этот файл
 описывает подтверждённое состояние репозитория на момент проверки;
@@ -6,7 +6,7 @@
 
 ## 1. Контекст проекта
 
-SENIO – студенческий проект для организации, поиска и обмена учебными
+SENIO — студенческий проект для организации, поиска и обмена учебными
 материалами.
 
 **Текущее состояние:** проект вышел из стадии пустого репозитория.
@@ -26,42 +26,30 @@ AI-функций.
 
 ## 2. Структура репозитория
 
--   `README.md` – основная страница проекта: описание, стек,
+-   `README.md` — основная страница проекта: описание, стек,
     инструкция запуска для разработчиков.
--   `config/` – инициализированный Django-проект (`settings.py`,
-    `urls.py`, `asgi.py`, `wsgi.py`).
--   `manage.py` – утилита управления Django.
--   `requirements.txt` – зависимости Python (Django, ruff).
--   `pyproject.toml` – конфигурация линтера ruff.
--   `Dockerfile`, `compose.yaml`, `.dockerignore` – сборка и запуск
-    приложения через Docker.
--   `.env.example` – шаблон переменных окружения (секреты в git не
+-   `config/` — Django-проект (`settings.py`, `urls.py`, `asgi.py`,
+    `wsgi.py`).
+-   `manage.py` — утилита управления Django.
+-   `requirements.txt` — зависимости Python (Django 6.1,
+    psycopg2-binary, ruff).
+-   `Dockerfile`, `compose.yaml`, `.dockerignore` — запуск в Docker.
+-   `.env.example` — шаблон переменных окружения (секреты в git не
     хранить).
--   `.github/workflows/ci.yml` – CI: actionlint, Docker-сборка, ruff
-    и системные проверки Django.
--   `.github/dependabot.yml` – еженедельные обновления pip и
-    github-actions.
--   `.github/ISSUE_TEMPLATE/` – шаблоны задач на русском и английском.
--   `dev-docs/git-workflow.md` – правила веток, коммитов, Pull Request
+-   `.github/workflows/ci.yml` — CI (GitHub Actions).
+-   `.github/ISSUE_TEMPLATE/` — шаблоны задач на русском и английском.
+-   `dev-docs/git-workflow.md` — правила веток, коммитов, Pull Request
     и ревью. Следуй этому документу, не дублируй его здесь.
--   `docs/README.en.md` – заготовка английской версии README (WIP).
--   `docs/annotation.md` – официальная аннотация Senio версии 2.0,
-    зафиксированная в сервисе Проектной деятельности; текст не менять.
--   `docs/project-context.md` – база знаний о продуктовом контексте
-    и договорённостях проекта; обязательна к чтению для ИИ-агентов
-    перед продуктовыми задачами.
--   `docs/open-questions.md` – актуальный список открытых вопросов,
-    известных проблем и багов с постоянными идентификаторами
-    (`Q-###`, `P-###`, `B-###`).
--   `.agents/skills/` – Skill'и для ИИ-агентов (например,
+-   `docs/README.en.md` — заготовка английской версии README (WIP).
+-   `.agents/skills/` — Skill'и для ИИ-агентов (например,
     `docs-maintenance`).
--   `static/img/mascot/` – изображения и логотипы маскота Senka.
--   `.gitignore` – исключения для Python/Django, окружений, тестовых
+-   `static/img/mascot/` — изображения и логотипы маскота Senka.
+-   `.gitignore` — исключения для Python/Django, окружений, тестовых
     артефактов и других локальных файлов.
--   `LICENSE` – лицензия MIT.
-
-Каталоги документации: `docs/` – документация о продукте и его
-состоянии; `dev-docs/` – документация о процессах разработки.
+-   `LICENSE` — лицензия MIT.
+-   `pyproject.toml` — конфигурация линтера ruff.
+-   `.github/dependabot.yml` — еженедельные обновления pip и
+    github-actions.
 
 Тесты в репозитории пока отсутствуют. Не придумывай расположение
 файлов и не ссылайся на несуществующие команды.
@@ -70,15 +58,18 @@ AI-функций.
 
 Подтверждено кодом:
 
--   Backend: Python, Django (`requirements.txt`, `config/`);
-    проект только инициализирован, прикладных приложений нет.
+-   Backend: Python, Django (>=6.1, <6.2) с драйвером psycopg2-binary
+    (`requirements.txt`, `config/`); проект только инициализирован,
+    прикладных приложений нет.
 -   Запуск в разработке: Docker (`Dockerfile`, `compose.yaml`),
     сервер разработки `manage.py runserver` на порту 8000.
--   База данных: SQLite (`config/settings.py`). PostgreSQL заявлен
-    в README как целевой стек, но в коде ещё не подключён.
--   Линтинг: ruff (`pyproject.toml`), запускается в CI и локально
-    через контейнер web.
--   Frontend (Vanilla JS, Tailwind CSS, HTMX) – запланирован
+-   База данных: PostgreSQL 15 в контейнере (`compose.yaml`), данные
+    хранятся в volume `postgres_data`. Подключение настроено в
+    `config/settings.py`; хост (`db`) и порт (`5432`) заданы в
+    настройках, имя базы, пользователь и пароль берутся из
+    переменных окружения (`DB_NAME`, `DB_USER`, `DB_PASSWORD`,
+    см. `.env.example`).
+-   Frontend (Vanilla JS, Tailwind CSS, HTMX) — запланирован
     в README, в коде отсутствует.
 -   Архитектурное направление (принято, в коде ещё не отражено):
     модульный Django с отдельными сервисами для ресурсоёмких задач;
@@ -87,7 +78,9 @@ AI-функций.
 Тесты в репозитории пока отсутствуют. Не придумывай несуществующие
 команды и не ссылайся на нереализованные части приложения.
 
-Когда появится реализация:
+Стек закреплён кодом частично: Django (`requirements.txt`) и запуск
+через Docker. Frontend из README пока не реализован; архитектура
+приложения не сложилась.
 
 -   сначала изучи существующие файлы зависимостей, конфигурацию
     и код;
@@ -104,21 +97,26 @@ AI-функций.
 Подтверждённые команды (всё через Docker, чтобы окружение совпадало
 с CI):
 
--   `docker compose up --build` – запуск приложения;
--   `docker compose run --rm web python manage.py check` – системные
+-   `docker compose up --build` — запуск приложения;
+-   `docker compose run --rm web python manage.py migrate` —
+    применение миграций к PostgreSQL;
+-   `docker compose run --rm web python manage.py check` — системные
     проверки Django;
--   `docker compose run --rm web ruff check .` – линтинг
+-   `docker compose run --rm web ruff check .` — линтинг
     Python-кода (конфигурация в `pyproject.toml`).
 
+Тестов пока нет; команда `python manage.py test` появится вместе с
+первыми тестами.
+
 ```bash
-cp .env.example .env                                  # затем задай SECRET_KEY
+cp .env.example .env                                  # затем задай SECRET_KEY и DB_*
 docker compose up --build                             # запуск: http://localhost:8000
+docker compose run --rm web python manage.py migrate  # применение миграций к PostgreSQL
 docker compose run --rm web python manage.py check    # проверка конфигурации Django
 ```
 
-Тестов пока нет; команда `python manage.py test` появится вместе с
-первыми тестами. Не выдумывай команды вроде `pytest` и не добавляй
-инструменты без необходимости.
+Команд тестирования пока нет. Не выдумывай команды вроде
+`pytest` и не добавляй инструменты без необходимости.
 
 ## 5. Правила написания кода
 
@@ -244,3 +242,5 @@ docker compose run --rm web python manage.py check    # проверка кон�
     этом файле оставляй ссылку на него.
 -   Для аудита и сопровождения документации используй Skill
     `docs-maintenance` (`.agents/skills/docs-maintenance/SKILL.md`).
+-   В русской документации используй типографское тире «—» (em dash),
+    а не три дефиса «---».

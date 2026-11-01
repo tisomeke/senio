@@ -94,13 +94,22 @@ WIP
 > [!IMPORTANT]
 > Важно: каждый разработчик создаёт свой .env; ключи нельзя раскрывать в git.
 
+> [!NOTE]
+> Переменные `DB_NAME`, `DB_USER`, `DB_PASSWORD` из `.env` используются сервисом `db` в `compose.yaml` для создания базы данных PostgreSQL и Django для подключения к ней. Хост (`db`) и порт (`5432`) заданы в `config/settings.py`.
+
 4. Соберите образ и запустите приложение:
 
     ```bash
-    sudo docker compose up --build
+    docker compose up --build
     ```
 
-5. Откройте в браузере [http://localhost:8000](http://localhost:8000).
+5. Примените миграции к базе данных:
+
+    ```bash
+    docker compose run --rm web python manage.py migrate
+    ```
+
+6. Откройте в браузере [http://localhost:8000](http://localhost:8000).
 
 При успешном запуске отобразится страница Senio.
 
@@ -108,16 +117,24 @@ WIP
 
 Нажмите `Ctrl+C` в терминале, где запущено приложение.
 
+### Миграции
+
+Применить миграции к базе данных PostgreSQL:
+
+```bash
+docker compose run --rm web python manage.py migrate
+```
+
 ### Проверка конфигурации Django
 
 ```bash
-sudo docker compose run --rm web python manage.py check
+docker compose run --rm web python manage.py check
 ```
 
 ### Линтинг кода
 
 ```bash
-sudo docker compose run --rm web ruff check .
+docker compose run --rm web ruff check .
 ```
 
 ## Лицензия
