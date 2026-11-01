@@ -224,3 +224,9 @@ __marimo__/
 
 # Zed
 .zed
+
+# Repository and agent tooling that are not needed in the image
+.git/
+.codeassistant/
+.agents/
+.github/
