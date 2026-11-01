@@ -20,9 +20,15 @@
 <div>
 <!-- Бейджи -->
 
-<img src="" width=""/>
-<img src="" width=""/>
-<img src="" width=""/>
+
+<img src="https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+<img src="https://img.shields.io/badge/HTMX-3366CC?logo=htmx&logoColor=white" alt="HTMX">
+<img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+<img src="https://img.shields.io/badge/Django_Templates-092E20?logo=django&logoColor=white" alt="Django Templates">
+<img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
+<img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL">
 
 </div>
 
