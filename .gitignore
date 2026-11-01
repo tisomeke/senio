@@ -230,3 +230,6 @@ __marimo__/
 # local files & local files dir
 LOCAL_FILES
 *.local.*
+
+# Visual Studio
+.vs/
