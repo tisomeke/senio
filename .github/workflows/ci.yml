@@ -44,3 +44,9 @@ jobs:
 
       - name: Run Django system checks
         run: docker compose run --rm web python manage.py check
+
+      - name: Run Django migrations
+        run: docker compose run --rm web python manage.py migrate
+
+      - name: Run Django tests
+        run: docker compose run --rm web python manage.py test
