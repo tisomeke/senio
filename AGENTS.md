@@ -31,7 +31,8 @@ AI-функций.
 -   `config/` --- Django-проект (`settings.py`, `urls.py`, `asgi.py`,
     `wsgi.py`).
 -   `manage.py` --- утилита управления Django.
--   `requirements.txt` --- зависимости Python (Django 5.2).
+-   `requirements.txt` --- зависимости Python (Django 6.1,
+    psycopg2-binary, ruff).
 -   `Dockerfile`, `compose.yaml`, `.dockerignore` --- запуск в Docker.
 -   `.env.example` --- шаблон переменных окружения (секреты в git не
     хранить).
@@ -46,13 +47,7 @@ AI-функций.
 -   `.gitignore` --- исключения для Python/Django, окружений, тестовых
     артефактов и других локальных файлов.
 -   `LICENSE` --- лицензия MIT.
--   `requirements.txt` --- зависимости Python (Django, ruff).
--   `manage.py`, `config/` --- инициализированный Django-проект.
--   `Dockerfile`, `compose.yaml`, `.dockerignore` --- сборка и запуск
-    приложения через Docker.
 -   `pyproject.toml` --- конфигурация линтера ruff.
--   `.github/workflows/ci.yml` --- CI: actionlint, Docker-сборка, ruff
-    и системные проверки Django.
 -   `.github/dependabot.yml` --- еженедельные обновления pip и
     github-actions.
 
@@ -64,23 +59,26 @@ AI-функций.
 
 Подтверждено кодом:
 
--   Backend: Python, Django 5.2 (`requirements.txt`, `config/`);
-    проект только инициализирован, прикладных приложений нет.
+-   Backend: Python, Django (>=6.1, <6.2) с драйвером psycopg2-binary
+    (`requirements.txt`, `config/`); проект только инициализирован,
+    прикладных приложений нет.
 -   Запуск в разработке: Docker (`Dockerfile`, `compose.yaml`),
     сервер разработки `manage.py runserver` на порту 8000.
--   База данных: SQLite (`config/settings.py`). PostgreSQL заявлен
-    в README как целевой стек, но в коде ещё не подключён.
+-   База данных: PostgreSQL 15 в контейнере (`compose.yaml`), данные
+    хранятся в volume `postgres_data`. Подключение настроено в
+    `config/settings.py`; хост (`db`) и порт (`5432`) заданы в
+    настройках, имя базы, пользователь и пароль берутся из
+    переменных окружения (`DB_NAME`, `DB_USER`, `DB_PASSWORD`,
+    см. `.env.example`).
 -   Frontend (Vanilla JS, Tailwind CSS, HTMX) --- запланирован
     в README, в коде отсутствует.
 
 Тесты в репозитории пока отсутствуют. Не придумывай несуществующие
 команды и не ссылайся на нереализованные части приложения.
 
-## 3. Технологии и архитектура
-
-Стек закреплён кодом частично: Django 5.2 (`requirements.txt`) и запуск
-через Docker. Frontend (Vanilla JS, Tailwind CSS, HTMX) и PostgreSQL из
-README пока не реализованы; архитектура приложения не сложилась.
+Стек закреплён кодом частично: Django (`requirements.txt`) и запуск
+через Docker. Frontend из README пока не реализован; архитектура
+приложения не сложилась.
 
 Когда появится реализация: - сначала изучи существующие файлы
 зависимостей, конфигурацию и код; - следуй уже используемым решениям и
@@ -96,15 +94,8 @@ README пока не реализованы; архитектура прилож
 с CI):
 
 -   `docker compose up --build` --- запуск приложения;
--   `docker compose run --rm web python manage.py check` --- системные
-    проверки Django;
--   `docker compose run --rm web ruff check .` --- линтинг
-    Python-кода (конфигурация в `pyproject.toml`).
-
-Тестов пока нет; команда `python manage.py test` появится вместе с
-первыми тестами.
-
--   `docker compose up --build` --- запуск приложения;
+-   `docker compose run --rm web python manage.py migrate` ---
+    применение миграций к PostgreSQL;
 -   `docker compose run --rm web python manage.py check` --- системные
     проверки Django;
 -   `docker compose run --rm web ruff check .` --- линтинг
@@ -114,12 +105,13 @@ README пока не реализованы; архитектура прилож
 первыми тестами.
 
 ```bash
-cp .env.example .env                                  # затем задай SECRET_KEY
+cp .env.example .env                                  # затем задай SECRET_KEY и DB_*
 docker compose up --build                             # запуск: http://localhost:8000
+docker compose run --rm web python manage.py migrate  # применение миграций к PostgreSQL
 docker compose run --rm web python manage.py check    # проверка конфигурации Django
 ```
 
-Команд тестирования и линтинга пока нет. Не выдумывай команды вроде
+Команд тестирования пока нет. Не выдумывай команды вроде
 `pytest` и не добавляй инструменты без необходимости.
 
 ## 5. Правила написания кода
