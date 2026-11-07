@@ -4,7 +4,6 @@ about: Template for assigning tasks (eng)
 title: "[TASK] <task_name>"
 labels: ''
 assignees: ''
-type: Task
 
 ---
 
