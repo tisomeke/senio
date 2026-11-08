@@ -2,7 +2,7 @@
   
 <br>
   
-<img src="Здесь должен быть логотип Senio" alt="Senio logo" width="Необходимо отрегулировать при вставке уже изображения" height = "Аналогично">
+<img src="static/img/logo/logo-dark.svg" alt="Senio logo" width="260">
 
 # SENIO
 Веб-библиотека учебных материалов,
@@ -11,10 +11,11 @@
 
 <br>
 
-<!-- Информационные ячейки(если будут нужны) -->
+<!-- Информационные ячейки(если будут нужны)
 <img src="" height="" />
 <img src="" height="" />
 <img src="" height="" />
+-->
 
 </div>
 <div>
