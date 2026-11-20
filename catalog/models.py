@@ -73,3 +73,18 @@ class EducationalProgram(models.Model):
 
     def __str__(self):
         return f"{self.code} {self.name}"
+
+
+class Discipline(models.Model):
+    """Discipline shared by educational programs via the curriculum."""
+
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=64, unique=True)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = "discipline"
+        verbose_name_plural = "disciplines"
+
+    def __str__(self):
+        return self.name
