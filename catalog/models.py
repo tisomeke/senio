@@ -88,3 +88,49 @@ class Discipline(models.Model):
 
     def __str__(self):
         return self.name
+
+class CurriculumEntry(models.Model):
+    """Link between a program and a discipline with a semester number.
+
+    A discipline may appear in several semesters of the same program,
+    so the semester is a part of the entry uniqueness.
+    """
+
+    program = models.ForeignKey(
+        EducationalProgram,
+        on_delete=models.CASCADE,
+        related_name="curriculum_entries",
+    )
+    discipline = models.ForeignKey(
+        Discipline,
+        on_delete=models.PROTECT,
+        related_name="curriculum_entries",
+    )
+    semester = models.PositiveSmallIntegerField(
+        validators=(
+            MinValueValidator(MIN_SEMESTER),
+            MaxValueValidator(MAX_SEMESTER),
+        ),
+    )
+
+    class Meta:
+        ordering = ("program", "semester", "discipline")
+        verbose_name = "curriculum entry"
+        verbose_name_plural = "curriculum entries"
+        constraints = (
+            models.UniqueConstraint(
+                fields=("program", "discipline", "semester"),
+                name="unique_curriculum_entry",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(
+                    semester__gte=MIN_SEMESTER,
+                    semester__lte=MAX_SEMESTER,
+                ),
+                name="curriculum_entry_semester_range",
+            ),
+        )
+
+    def __str__(self):
+        return f"{self.program} - {self.discipline} ({self.semester})"
+
