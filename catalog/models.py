@@ -134,3 +134,23 @@ class CurriculumEntry(models.Model):
     def __str__(self):
         return f"{self.program} - {self.discipline} ({self.semester})"
 
+
+class MaterialType(models.Model):
+    """Reference list of material types (lecture, test, exam, ...).
+
+    Types are kept in a dedicated table instead of free-form tags: the
+    list is managed in the admin, names stay consistent and variants
+    like "test" and "control work" do not multiply. Materials
+    themselves are not implemented yet.
+    """
+
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=64, unique=True)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = "material type"
+        verbose_name_plural = "material types"
+
+    def __str__(self):
+        return self.name
