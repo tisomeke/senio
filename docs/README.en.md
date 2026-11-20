@@ -22,7 +22,7 @@ disciplines.
 <!-- Бейджи -->
 
 
-<img src="https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white" alt="Python">
 <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
 <img src="https://img.shields.io/badge/HTMX-3366CC?logo=htmx&logoColor=white" alt="HTMX">
@@ -103,6 +103,9 @@ The project is currently at an early stage of development.
 
 > [!NOTE]
 > The `DB_NAME`, `DB_USER`, and `DB_PASSWORD` variables from `.env` are used by the `db` service in `compose.yaml` to create the PostgreSQL database and by Django to connect to it. The host (`db`) and port (`5432`) are specified in `config/settings.py`.
+
+> [!WARNING]
+> If the `postgres_data` volume was created by an older PostgreSQL version, its data is incompatible with PostgreSQL 18. In a local environment without important data, recreate the volume with `docker compose down -v` and then run `docker compose up --build` again. This command deletes the local database data.
 
 4. Build the image and start the application:
 
