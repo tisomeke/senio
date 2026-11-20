@@ -22,7 +22,7 @@
 <!-- Бейджи -->
 
 
-<img src="https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white" alt="Python">
 <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
 <img src="https://img.shields.io/badge/HTMX-3366CC?logo=htmx&logoColor=white" alt="HTMX">
@@ -106,6 +106,9 @@ WIP
 
 > [!NOTE]
 > Переменные `DB_NAME`, `DB_USER`, `DB_PASSWORD` из `.env` используются сервисом `db` в `compose.yaml` для создания базы данных PostgreSQL и Django для подключения к ней. Хост (`db`) и порт (`5432`) заданы в `config/settings.py`.
+
+> [!WARNING]
+> Если volume `postgres_data` был создан предыдущей версией PostgreSQL, его данные несовместимы с PostgreSQL 18. В локальном окружении без нужных данных пересоздайте volume: `docker compose down -v`, затем снова выполните `docker compose up --build`. Команда удаляет локальные данные базы.
 
 4. Соберите образ и запустите приложение:
 

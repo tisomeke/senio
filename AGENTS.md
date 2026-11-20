@@ -65,15 +65,19 @@ AI-функций.
 
 Подтверждено кодом:
 
--   Backend: Python, Django (>=6.1, <6.2) с драйвером psycopg2-binary
-    (`requirements.txt`, `config/`); проект только инициализирован,
-    прикладных приложений нет.
+-   Backend: Python 3.14 (образ `python:3.14-slim`), Django
+    (>=6.1.3, <6.2) с драйвером psycopg2-binary (`requirements.txt`,
+    `config/`); проект только инициализирован, прикладных приложений
+    нет. Линтер ruff проверяет код с `target-version = "py314"`
+    (`pyproject.toml`).
 -   Запуск в разработке: Docker (`Dockerfile`, `compose.yaml`),
     сервер разработки `manage.py runserver` на порту 8000.
--   База данных: PostgreSQL 15 в контейнере (`compose.yaml`), данные
-    хранятся в volume `postgres_data`. Подключение настроено в
-    `config/settings.py`; хост (`db`) и порт (`5432`) заданы в
-    настройках, имя базы, пользователь и пароль берутся из
+-   База данных: PostgreSQL 18 в контейнере (`compose.yaml`), данные
+    хранятся в volume `postgres_data`, смонтированном в
+    `/var/lib/postgresql`. Volume прежней версии PostgreSQL
+    несовместим с PostgreSQL 18 и требует пересоздания. Подключение
+    настроено в `config/settings.py`; хост (`db`) и порт (`5432`)
+    заданы в настройках, имя базы, пользователь и пароль берутся из
     переменных окружения (`DB_NAME`, `DB_USER`, `DB_PASSWORD`,
     см. `.env.example`).
 -   Frontend (Vanilla JS, Tailwind CSS, HTMX) — запланирован
