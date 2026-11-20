@@ -43,3 +43,33 @@ class Institute(models.Model):
 
     def __str__(self):
         return self.name
+
+class EducationalProgram(models.Model):
+    """Educational program offered by an institute."""
+
+    institute = models.ForeignKey(
+        Institute,
+        on_delete=models.CASCADE,
+        related_name="programs",
+    )
+    name = models.CharField(max_length=255)
+    code = models.CharField(max_length=32)
+    slug = models.SlugField(max_length=64)
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = "educational program"
+        verbose_name_plural = "educational programs"
+        constraints = (
+            models.UniqueConstraint(
+                fields=("institute", "slug"),
+                name="unique_program_slug_per_institute",
+            ),
+            models.UniqueConstraint(
+                fields=("institute", "code"),
+                name="unique_program_code_per_institute",
+            ),
+        )
+
+    def __str__(self):
+        return f"{self.code} {self.name}"
