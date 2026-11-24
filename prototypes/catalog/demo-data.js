@@ -13,10 +13,12 @@ const catalog = {
     languages: "Языки программирования",
     algebra: "Линейная алгебра",
   },
+  materialTypes: ["Лекция", "Практикум", "Контрольная", "Экзаменационные материалы"],
   curriculum: [
     { program: "fiit", discipline: "discrete", semester: 1, materials: [
       { type: "Лекция", title: "Множества и отношения" },
       { type: "Практикум", title: "Задачи на операции с множествами" },
+      { type: "Контрольная", title: "Отношения и отображения" },
     ] },
     { program: "fiit", discipline: "discrete", semester: 2, materials: [] },
     { program: "fiit", discipline: "basics", semester: 1, materials: [
@@ -25,6 +27,7 @@ const catalog = {
     { program: "fiit", discipline: "languages", semester: 2, materials: [] },
     { program: "fiit", discipline: "languages", semester: 3, materials: [
       { type: "Лекция", title: "Системы типов" },
+      { type: "Экзаменационные материалы", title: "Вопросы по системам типов" },
     ] },
     { program: "pmi", discipline: "algebra", semester: 1, materials: [] },
     { program: "pmi", discipline: "languages", semester: 4, materials: [] },

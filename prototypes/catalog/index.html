@@ -4,17 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Senio</title>
-  <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="catalog.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap">
+  <script async src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-white text-slate-900">
-  <main class="mx-auto max-w-3xl px-6 py-12">
-    <h1 class="text-3xl font-semibold">Senio</h1>
-    <p id="university" class="mt-4"></p>
-    <p class="mt-2 text-slate-600">Данные вымышлены. Официальный учебный план ЮФУ здесь не представлен.</p>
+<body>
+  <header><div class="wrap mast">
+    <a href="#" aria-label="Senio, главная"><img width="106" src="../../static/img/logo/logo-light.svg" alt="Senio"></a>
+    <span class="campus">ЮФУ</span>
+  </div></header>
+  <main class="wrap">
+    <nav id="crumbs" aria-label="Хлебные крошки"></nav>
+    <section id="screen"></section>
   </main>
+  <footer class="wrap text-sm">Демонстрационные данные. Учебный план и материалы вымышлены.</footer>
   <script src="demo-data.js"></script>
-  <script>
-    document.getElementById("university").textContent = catalog.university.name;
-  </script>
+  <script src="catalog.js"></script>
 </body>
 </html>
