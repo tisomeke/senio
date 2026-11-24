@@ -6,110 +6,209 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Discipline',
+            name="Discipline",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('slug', models.SlugField(max_length=64, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("slug", models.SlugField(max_length=64, unique=True)),
             ],
             options={
-                'verbose_name': 'discipline',
-                'verbose_name_plural': 'disciplines',
-                'ordering': ('name',),
+                "verbose_name": "discipline",
+                "verbose_name_plural": "disciplines",
+                "ordering": ("name",),
             },
         ),
         migrations.CreateModel(
-            name='Institute',
+            name="Institute",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('slug', models.SlugField(max_length=64)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("slug", models.SlugField(max_length=64)),
             ],
             options={
-                'verbose_name': 'institute',
-                'verbose_name_plural': 'institutes',
-                'ordering': ('name',),
+                "verbose_name": "institute",
+                "verbose_name_plural": "institutes",
+                "ordering": ("name",),
             },
         ),
         migrations.CreateModel(
-            name='MaterialType',
+            name="MaterialType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('slug', models.SlugField(max_length=64, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("slug", models.SlugField(max_length=64, unique=True)),
             ],
             options={
-                'verbose_name': 'material type',
-                'verbose_name_plural': 'material types',
-                'ordering': ('name',),
+                "verbose_name": "material type",
+                "verbose_name_plural": "material types",
+                "ordering": ("name",),
             },
         ),
         migrations.CreateModel(
-            name='University',
+            name="University",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('slug', models.SlugField(max_length=64, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("slug", models.SlugField(max_length=64, unique=True)),
             ],
             options={
-                'verbose_name': 'university',
-                'verbose_name_plural': 'universities',
-                'ordering': ('name',),
+                "verbose_name": "university",
+                "verbose_name_plural": "universities",
+                "ordering": ("name",),
             },
         ),
         migrations.CreateModel(
-            name='EducationalProgram',
+            name="EducationalProgram",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('code', models.CharField(max_length=32)),
-                ('slug', models.SlugField(max_length=64)),
-                ('institute', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='programs', to='catalog.institute')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("code", models.CharField(max_length=32)),
+                ("slug", models.SlugField(max_length=64)),
+                (
+                    "institute",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="programs",
+                        to="catalog.institute",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'educational program',
-                'verbose_name_plural': 'educational programs',
-                'ordering': ('name',),
+                "verbose_name": "educational program",
+                "verbose_name_plural": "educational programs",
+                "ordering": ("name",),
             },
         ),
         migrations.AddField(
-            model_name='institute',
-            name='university',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='institutes', to='catalog.university'),
+            model_name="institute",
+            name="university",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="institutes",
+                to="catalog.university",
+            ),
         ),
         migrations.CreateModel(
-            name='CurriculumEntry',
+            name="CurriculumEntry",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('semester', models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(12)])),
-                ('discipline', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='curriculum_entries', to='catalog.discipline')),
-                ('program', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='curriculum_entries', to='catalog.educationalprogram')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "semester",
+                    models.PositiveSmallIntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(12),
+                        ]
+                    ),
+                ),
+                (
+                    "discipline",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="curriculum_entries",
+                        to="catalog.discipline",
+                    ),
+                ),
+                (
+                    "program",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="curriculum_entries",
+                        to="catalog.educationalprogram",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'curriculum entry',
-                'verbose_name_plural': 'curriculum entries',
-                'ordering': ('program', 'semester', 'discipline'),
-                'constraints': [models.UniqueConstraint(fields=('program', 'discipline', 'semester'), name='unique_curriculum_entry'), models.CheckConstraint(condition=models.Q(('semester__gte', 1), ('semester__lte', 12)), name='curriculum_entry_semester_range')],
+                "verbose_name": "curriculum entry",
+                "verbose_name_plural": "curriculum entries",
+                "ordering": ("program", "semester", "discipline"),
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("program", "discipline", "semester"),
+                        name="unique_curriculum_entry",
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(
+                            ("semester__gte", 1), ("semester__lte", 12)
+                        ),
+                        name="curriculum_entry_semester_range",
+                    ),
+                ],
             },
         ),
         migrations.AddConstraint(
-            model_name='educationalprogram',
-            constraint=models.UniqueConstraint(fields=('institute', 'slug'), name='unique_program_slug_per_institute'),
+            model_name="educationalprogram",
+            constraint=models.UniqueConstraint(
+                fields=("institute", "slug"),
+                name="unique_program_slug_per_institute",
+            ),
         ),
         migrations.AddConstraint(
-            model_name='educationalprogram',
-            constraint=models.UniqueConstraint(fields=('institute', 'code'), name='unique_program_code_per_institute'),
+            model_name="educationalprogram",
+            constraint=models.UniqueConstraint(
+                fields=("institute", "code"),
+                name="unique_program_code_per_institute",
+            ),
         ),
         migrations.AddConstraint(
-            model_name='institute',
-            constraint=models.UniqueConstraint(fields=('university', 'slug'), name='unique_institute_slug_per_university'),
+            model_name="institute",
+            constraint=models.UniqueConstraint(
+                fields=("university", "slug"),
+                name="unique_institute_slug_per_university",
+            ),
         ),
     ]

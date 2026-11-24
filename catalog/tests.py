@@ -18,9 +18,7 @@ from .models import (
 class CatalogModelTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.university = University.objects.create(
-            name="SFEDU", slug="sfedu"
-        )
+        cls.university = University.objects.create(name="SFEDU", slug="sfedu")
         cls.institute = Institute.objects.create(
             university=cls.university,
             name="ICTIS",
@@ -175,14 +173,13 @@ class CatalogModelTests(TestCase):
     def test_str_methods(self):
         self.assertEqual(str(self.university), "SFEDU")
         self.assertEqual(str(self.institute), "ICTIS")
-        self.assertEqual(
-            str(self.program), "09.03.03 Applied Informatics"
-        )
+        self.assertEqual(str(self.program), "09.03.03 Applied Informatics")
         self.assertEqual(str(self.discipline), "Databases")
         self.assertEqual(
             str(self.entry),
             "09.03.03 Applied Informatics - Databases (3)",
         )
+
 
 class CatalogAdminTests(TestCase):
     @classmethod
@@ -192,9 +189,7 @@ class CatalogAdminTests(TestCase):
             email="admin@example.com",
             password="admin-password",
         )
-        cls.university = University.objects.create(
-            name="SFEDU", slug="sfedu"
-        )
+        cls.university = University.objects.create(name="SFEDU", slug="sfedu")
         cls.institute = Institute.objects.create(
             university=cls.university,
             name="ICTIS",
@@ -288,4 +283,3 @@ class CatalogAdminTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertIn("/admin/login/", response["Location"])
-	

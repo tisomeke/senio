@@ -19,6 +19,7 @@ class University(models.Model):
     def __str__(self):
         return self.name
 
+
 class Institute(models.Model):
     """Institute (faculty) that belongs to a university."""
 
@@ -43,6 +44,7 @@ class Institute(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class EducationalProgram(models.Model):
     """Educational program offered by an institute."""
@@ -88,6 +90,7 @@ class Discipline(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class CurriculumEntry(models.Model):
     """Link between a program and a discipline with a semester number.

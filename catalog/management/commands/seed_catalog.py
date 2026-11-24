@@ -134,9 +134,7 @@ class Command(BaseCommand):
                     )
                     programs_created += int(created)
 
-                    for discipline_slug, semester in program_data[
-                        "curriculum"
-                    ]:
+                    for discipline_slug, semester in program_data["curriculum"]:
                         _, created = CurriculumEntry.objects.get_or_create(
                             program=program,
                             discipline=disciplines[discipline_slug],
