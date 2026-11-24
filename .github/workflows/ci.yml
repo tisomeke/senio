@@ -9,8 +9,9 @@ permissions:
   contents: read
 
 jobs:
-  # Fast checks that need no Docker; they run before the heavy image build
-  lint:
+  # Lint the CI configuration itself; no Docker is needed here.
+  workflow-lint:
+    name: Workflow lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository # downloading code to the runner
@@ -23,8 +24,26 @@ jobs:
           ./actionlint -color
         shell: bash
 
-  # Docker build and checks inside the container
-  docker-ci:
+  # Static checks of Python code; PostgreSQL is not needed for Ruff.
+  code-quality:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository # downloading code to the runner
+        uses: actions/checkout@v7
+
+      - name: Copy env
+        run: cp .env.example .env
+
+      - name: Docker compose build
+        run: docker compose build web
+
+      - name: Run ruff linter # static checks of Python code (config in pyproject.toml)
+        run: docker compose run --rm --no-deps web ruff check .
+
+  # Django checks that need a prepared database.
+  django-checks:
+    name: Django checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository # downloading code to the runner
@@ -37,16 +56,30 @@ jobs:
         run: docker compose config
 
       - name: Docker compose build
-        run: docker compose build
-
-      - name: Run ruff linter # static checks of Python code (config in pyproject.toml)
-        run: docker compose run --rm web ruff check .
+        run: docker compose build web
 
       - name: Run Django system checks
         run: docker compose run --rm web python manage.py check
 
+      - name: Check for missing migrations
+        run: docker compose run --rm web python manage.py makemigrations --check --dry-run
+
       - name: Run Django migrations
         run: docker compose run --rm web python manage.py migrate
+
+  # Django test suite against PostgreSQL.
+  django-tests:
+    name: Django tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository # downloading code to the runner
+        uses: actions/checkout@v7
+
+      - name: Copy env
+        run: cp .env.example .env
+
+      - name: Docker compose build
+        run: docker compose build web
 
       - name: Run Django tests
         run: docker compose run --rm web python manage.py test
