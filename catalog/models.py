@@ -144,7 +144,7 @@ class MaterialType(models.Model):
     Types are kept in a dedicated table instead of free-form tags: the
     list is managed in the admin, names stay consistent and variants
     like "test" and "control work" do not multiply. Materials
-    themselves are not implemented yet.
+    are modeled separately in the materials app.
     """
 
     name = models.CharField(max_length=100)
