@@ -16,21 +16,28 @@ const catalog = {
   materialTypes: ["Лекция", "Практикум", "Контрольная", "Экзаменационные материалы"],
   curriculum: [
     { program: "fiit", discipline: "discrete", semester: 1, materials: [
-      { type: "Лекция", title: "Множества и отношения" },
-      { type: "Практикум", title: "Задачи на операции с множествами" },
-      { type: "Контрольная", title: "Отношения и отображения" },
+      { addedAt: "2026-11-14", type: "Лекция", title: "Множества и отношения" },
+      { addedAt: "2026-11-08", type: "Практикум", title: "Задачи на операции с множествами" },
+      { addedAt: "2026-11-19", type: "Контрольная", title: "Отношения и отображения" },
     ] },
     { program: "fiit", discipline: "discrete", semester: 2, materials: [] },
     { program: "fiit", discipline: "basics", semester: 1, materials: [
-      { type: "Практикум", title: "Циклы и условия" },
+      { addedAt: "2026-11-12", type: "Практикум", title: "Циклы и условия" },
     ] },
     { program: "fiit", discipline: "languages", semester: 2, materials: [] },
     { program: "fiit", discipline: "languages", semester: 3, materials: [
-      { type: "Лекция", title: "Системы типов" },
-      { type: "Экзаменационные материалы", title: "Вопросы по системам типов" },
+      { addedAt: "2026-11-22", type: "Лекция", title: "Системы типов" },
+      { addedAt: "2026-11-20", type: "Экзаменационные материалы", title: "Вопросы по системам типов" },
     ] },
-    { program: "pmi", discipline: "algebra", semester: 1, materials: [] },
-    { program: "pmi", discipline: "languages", semester: 4, materials: [] },
+    { program: "pmi", discipline: "algebra", semester: 1, materials: [
+      { addedAt: "2026-11-17", type: "Лекция", title: "Линейные пространства" },
+      { addedAt: "2026-11-10", type: "Практикум", title: "Операции с матрицами" },
+      { addedAt: "2026-11-23", type: "Контрольная", title: "Системы линейных уравнений" },
+      { addedAt: "2026-11-06", type: "Лекция", title: "Базис и размерность" },
+    ] },
+    { program: "pmi", discipline: "languages", semester: 4, materials: [
+      { addedAt: "2026-11-15", type: "Практикум", title: "Сравнение языков на примере численных методов" },
+    ] },
   ],
 };
 

@@ -1,136 +1,99 @@
-const screenRoot = document.querySelector("#screen");
-const crumbs = document.querySelector("#crumbs");
-const asset = "../../static/img/mascot/";
-const unique = values => [...new Set(values)];
-
-function row(url, title, detail = "") {
-  return `<a class="row" href="${url}"><span><strong>${title}</strong><small>${detail}</small></span><span class="arrow" aria-hidden="true">↗</span></a>`;
-}
-
-function disciplineUrl(program, course, discipline) {
-  const { selected } = semesterOptions(program.id, course, discipline);
-  const url = `#/institutes/${program.institute}/${program.id}/${course}/${discipline}`;
-  return selected ? url + "/" + selected : url;
-}
-
-function searchDisciplines(entries, globalSearch) {
-  const results = document.querySelector("#items");
-  const input = document.querySelector("#search");
-  function update() {
-    const query = input.value.trim().toLocaleLowerCase("ru");
-    if (globalSearch && !query) {
-      results.replaceChildren();
-      return;
-    }
-    const matches = new Map();
-    for (const entry of entries) {
-      const title = catalog.disciplines[entry.discipline];
-      if (!title.toLocaleLowerCase("ru").includes(query)) continue;
-      const program = catalog.programs.find(item => item.id === entry.program);
-      const course = courseForSemester(entry.semester);
-      const url = disciplineUrl(program, course, entry.discipline);
-      matches.set(url, row(url, title, globalSearch ? `${program.name} · ${course} курс` : ""));
-    }
-    results.innerHTML = [...matches.values()].join("") || "<p>Дисциплины не найдены. Попробуйте другое название.</p>";
+const byId = id => document.getElementById(id);
+const fields = ["institute", "program", "course", "semester", "discipline"];
+const allLabels = ["Все институты", "Все направления", "Все курсы", "Все семестры", "Все дисциплины"];
+const entries = catalog.curriculum.map(entry => {
+  const program = catalog.programs.find(p => p.id === entry.program);
+  const institute = catalog.institutes.find(i => i.id === program.institute);
+  return { ...entry, institute: institute.id, course: String(courseForSemester(entry.semester)),
+    semester: String(entry.semester), name: catalog.disciplines[entry.discipline],
+    programName: program.name, instituteName: institute.name };
+});
+function state() {
+  const params = new URLSearchParams(location.hash.slice(1));
+  for (const [oldKey, key] of Object.entries({subject:"discipline", track:"program", year:"course", term:"semester"})) {
+    if (params.has(oldKey) && !params.has(key)) params.set(key, params.get(oldKey));
+    params.delete(oldKey);
   }
-  input.oninput = update;
-  update();
+  params.delete("view");
+  return params;
 }
-
-const searchBox = '<div class="controls"><input type="search" id="search" aria-label="Поиск дисциплины" placeholder="Название дисциплины"></div><div id="items" class="items" aria-live="polite"></div>';
-
+function matches(entry, params, keys = fields) {
+  return keys.every(k => !params.get(k) || entry[k] === params.get(k));
+}
+function findEntries(params) {
+  const query = (params.get("q") || "").trim().toLowerCase();
+  return entries.filter(e => matches(e, params) && e.name.toLowerCase().includes(query));
+}
+function emptyState(message) {
+  return `<div class="empty"><img src="../../static/img/mascot/senka-peeks.svg" alt="Серый Сенька"><p>${message}</p></div>`;
+}
+function materialCards(materials) {
+  if (!materials.length) return emptyState("Материалов пока нет");
+  return '<label class="controls">Тип материала <select id="type"><option value="">Все типы</option>'
+    + catalog.materialTypes.map(t => `<option>${t}</option>`).join("") + '</select></label><div class="cards">'
+    + materials.map(({title,type,entry:e}) => `<article class="card" data-type="${type}"><span class="tag">${type}</span>
+      <h3>${title}</h3><p>${e.name}</p><small>${e.course} курс · ${e.semester} семестр<br>${e.programName}<br>${e.instituteName}</small></article>`).join("")
+    + '</div><div id="no-type" hidden>' + emptyState("Материалы не найдены. Попробуйте другой тип материала.") + '</div>';
+}
 function render() {
-  const parts = location.hash.slice(1).split("/").filter(Boolean);
-  const trail = [{ name: "ЮФУ", url: "#" }];
-  function step(name, depth) {
-    trail.push({ name, url: "#/" + parts.slice(0, depth).join("/") });
-  }
-  function page(title, content, context = "") {
-    crumbs.innerHTML = trail.map((item, i) => i === trail.length - 1
-      ? `<span aria-current="page">${item.name}</span>`
-      : `<a href="${item.url}">${item.name}</a><span aria-hidden="true">/</span>`).join("");
-    const parent = trail.at(-2);
-    screenRoot.innerHTML = (parent ? `<a class="back" href="${parent.url}">← Назад</a>` : "")
-      + (context ? `<p class="context">${context}</p>` : "")
-      + (title ? `<h1>${title}</h1>` : "") + content;
-    document.title = title ? title + " · Senio" : "Senio";
-    window.scrollTo(0, 0);
-  }
-  function listing(title, rows) {
-    page(title, '<div class="items">' + rows.join("") + "</div>");
-  }
-  function invalid() {
-    location.replace("#");
-  }
-  if (!parts.length) {
-    page("", `<div class="hero"><div><p>${catalog.university.name}</p><h1>Учебные материалы</h1>
-      <a class="button" href="#/institutes">Выбрать институт →</a></div>
-      <img src="${asset}senka-at-laptop-book.svg" alt="Сенька за ноутбуком"></div>
-      <h2>Найти дисциплину</h2>${searchBox}`);
-    searchDisciplines(catalog.curriculum, true);
-    return;
-  }
-  const [root, instituteId, programId, courseId, discipline, semesterId] = parts;
-  if (root !== "institutes" || parts.length > 6) return invalid();
-  step("Институты", 1);
-  if (!instituteId) {
-    listing("Институты и факультеты", catalog.institutes.map(i => row("#/institutes/" + i.id, i.name)));
-    return;
-  }
-  const institute = catalog.institutes.find(i => i.id === instituteId);
-  if (!institute) return invalid();
-  step(institute.name, 2);
-  const programs = catalog.programs.filter(p => p.institute === instituteId);
-  if (!programId) {
-    listing("Направления подготовки", programs.map(p => row(trail.at(-1).url + "/" + p.id, p.name)));
-    return;
-  }
-  const program = programs.find(p => p.id === programId);
-  if (!program) return invalid();
-  step(program.name, 3);
-  const entries = catalog.curriculum.filter(e => e.program === programId);
-  const courses = unique(entries.map(e => courseForSemester(e.semester))).sort((a,b) => a-b);
-  if (!courseId) {
-    listing("Курс обучения", courses.map(c => row(trail.at(-1).url + "/" + c, c + " курс")));
-    return;
-  }
-  const course = Number(courseId);
-  if (!courses.includes(course)) return invalid();
-  step(course + " курс", 4);
-  if (!discipline) {
-    page("Дисциплины", searchBox);
-    searchDisciplines(entries.filter(e => courseForSemester(e.semester) === course), false);
-    return;
-  }
-  const { semesters, selected } = semesterOptions(programId, course, discipline);
-  if (!semesters.length) return invalid();
-  const name = catalog.disciplines[discipline];
-  if (!selected) step(name, 5);
-  if (!semesterId) {
-    if (selected) return location.replace(disciplineUrl(program, course, discipline));
-    listing("Выберите семестр", semesters.map(s => row(trail.at(-1).url + "/" + s, s + " семестр")));
-    return;
-  }
-  const semester = Number(semesterId);
-  if (!semesters.includes(semester)) return invalid();
-  step(selected ? name : semester + " семестр", 6);
-  const { materials } = entries.find(e => e.discipline === discipline && e.semester === semester);
-  const context = `Учебные материалы · ${course} курс · ${semester} семестр`;
-  if (!materials.length) {
-    page(name, `<div class="empty mt-6"><img src="${asset}senka-peeks.svg" alt="Серый Сенька"><p>Материалов пока нет</p></div>`, context);
-    return;
-  }
-  page(name, `<div class="controls"><label for="type">Тип материала</label><select id="type"><option value="">Все типы</option>
-    ${catalog.materialTypes.map(t => `<option>${t}</option>`).join("")}</select></div><div class="items" id="items" aria-live="polite"></div>`, context);
-  const type = document.querySelector("#type");
-  function filterMaterials() {
-    document.querySelector("#items").innerHTML = materials.filter(m => !type.value || m.type === type.value)
-      .map(m => `<div class="row material"><strong>${m.title}</strong><span class="tag">${m.type}</span></div>`).join("")
-      || "<p>Материалов этого типа пока нет.</p>";
-  }
-  type.onchange = filterMaterials;
-  filterMaterials();
+  const params = state();
+  const list = findEntries(params);
+  const query = params.get("q") || "";
+  byId("search").value = query;
+  const applied = fields.filter(k => params.get(k));
+  byId("filter-count").textContent = applied.length || "";
+  const latest = !query.trim() && !applied.length;
+  const materials = list.flatMap(entry => entry.materials.map(m => ({ ...m, entry })))
+    .sort((a, b) => b.addedAt.localeCompare(a.addedAt));
+  const title = latest ? "Последние материалы" : "Материалы";
+  byId("crumbs").innerHTML = '<a href="#">ЮФУ</a> / ' + title;
+  byId("screen").innerHTML = `<h1>${title}</h1>` + (list.length || latest
+    ? materialCards(latest ? materials.slice(0, 10) : materials)
+    : emptyState("Материалы не найдены. Попробуйте другое название или измените фильтры."));
+  const type = byId("type");
+  if (type) type.onchange = () => {
+    const cards = [...document.querySelectorAll(".card")];
+    for (const card of cards) card.hidden = !!type.value && card.dataset.type !== type.value;
+    byId("no-type").hidden = cards.some(card => !card.hidden);
+  };
 }
 
-window.addEventListener("hashchange", render);
+function fillFilters(draft) {
+  fields.forEach((key,index) => {
+    const available = entries.filter(e => matches(e,draft,fields.slice(0,index)));
+    const options = new Map(available.map(e => [e[key], {
+      institute:e.instituteName, program:e.programName, course:e.course + " курс", semester:e.semester + " семестр", discipline:e.name
+    }[key]]));
+    const select = byId(key);
+    select.replaceChildren(new Option(allLabels[index], ""), ...[...options].map(([id,name]) => new Option(name,id)));
+    select.value = draft.get(key) || "";
+    select.onchange = () => {
+      for (const child of fields.slice(index)) draft.delete(child);
+      if (select.value) draft.set(key,select.value);
+      fillFilters(draft);
+    };
+  });
+  byId("apply").onclick = () => {
+    location.hash = draft.toString();
+    byId("filters").close();
+  };
+}
+byId("open-filters").onclick = () => {
+  fillFilters(state());
+  byId("filters").showModal();
+};
+byId("reset").onclick = () => {
+  const draft = state();
+  fields.forEach(key => draft.delete(key));
+  location.hash = draft.toString();
+  fillFilters(draft);
+};
+byId("close").onclick = () => byId("filters").close();
+byId("search").oninput = event => {
+  const params = state();
+  if (event.target.value) params.set("q",event.target.value);
+  else params.delete("q");
+  location.replace("#" + params);
+};
+window.addEventListener("hashchange",render);
 render();

@@ -14,8 +14,25 @@
     <span class="campus">ЮФУ</span>
   </div></header>
   <main class="wrap">
+    <div class="searchbar" role="search">
+      <span aria-hidden="true">⌕</span>
+      <input type="search" id="search" aria-label="Найти материалы по дисциплине" placeholder="Найти материалы по дисциплине">
+      <button id="open-filters" aria-haspopup="dialog" aria-label="Открыть фильтры">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7h8m4 0h8M2 17h12m4 0h4"/><circle cx="12" cy="7" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+        <span id="filter-count"></span>
+      </button>
+    </div>
     <nav id="crumbs" aria-label="Хлебные крошки"></nav>
     <section id="screen"></section>
+    <dialog id="filters" aria-labelledby="filter-title">
+      <div class="dialog-head"><button id="close" aria-label="Закрыть фильтры">×</button><h2 id="filter-title">Фильтры</h2><button id="reset">Сбросить</button></div>
+      <label>Институт<select id="institute"></select></label>
+      <label>Направление подготовки<select id="program"></select></label>
+      <label>Курс<select id="course"></select></label>
+      <label>Семестр<select id="semester"></select></label>
+      <label>Дисциплина<select id="discipline"></select></label>
+      <button id="apply" class="button">Результаты поиска</button>
+    </dialog>
   </main>
   <footer class="wrap text-sm">Демонстрационные данные. Учебный план и материалы вымышлены.</footer>
   <script src="demo-data.js"></script>
