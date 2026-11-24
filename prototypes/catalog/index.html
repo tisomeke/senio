@@ -3,21 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ee">
   <title>Senio</title>
   <link rel="stylesheet" href="catalog.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap">
-  <script async src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-  <header><div class="wrap mast">
-    <a href="#" aria-label="Senio, главная"><img width="106" src="../../static/img/logo/logo.svg" alt="Senio"></a>
-    <span class="campus">ЮФУ</span>
-  </div></header>
-  <main class="wrap">
-    <nav id="crumbs" aria-label="Хлебные крошки"></nav>
-    <section id="screen"></section>
-  </main>
-  <footer class="wrap text-sm">Демонстрационные данные. Учебный план и материалы вымышлены.</footer>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#/" aria-label="Senio — главная">
+        <img src="../../static/img/logo/logo.svg" alt="Senio">
+      </a>
+      <nav class="campus-nav" aria-label="Учебное заведение">
+        <img class="university-mark" alt="" aria-hidden="true" hidden>
+        <label class="sr-only" for="university">Университет</label>
+        <select id="university" class="nav-select nav-select-university" aria-label="Университет"></select>
+        <span class="nav-divider" aria-hidden="true">/</span>
+        <label class="sr-only" for="institute">Институт</label>
+        <select id="institute" class="nav-select" aria-label="Институт"></select>
+        <span class="nav-divider" aria-hidden="true">/</span>
+        <label class="sr-only" for="program">Направление подготовки</label>
+        <select id="program" class="nav-select nav-select-program" aria-label="Направление подготовки"></select>
+      </nav>
+      <div class="header-actions">
+        <a class="add-button" href="#/add-material">
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          Добавить материал
+        </a>
+        <a class="profile-link" href="#/profile" aria-label="Перейти в профиль">
+          <span class="avatar" aria-hidden="true">С</span>
+          <span class="profile-label">Профиль</span>
+        </a>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Включить тёмную тему" aria-pressed="false" title="Тёмная тема">
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.463.402.807a6.5 6.5 0 0 0 8.268 8.268c.344-.215.829-.003.803.397z"/></svg>
+        </button>
+      </div>
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false">
+        <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="app" class="page-shell"></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="#/">Senio</a>
+      <div class="footer-project-info">
+        <span>Студенческий проект. Неофициальный ресурс, не связанный с ЮФУ.</span>
+        <span class="footer-credit">Сделано с <svg class="icon footer-heart" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> от мехмата ЮФУ</span>
+      </div>
+      <span class="demo-note">Демо-данные: вымышленные материалы и метаданные; файлов нет</span>
+      <nav class="footer-links" aria-label="О проекте">
+        <a href="#/admin/moderation">Модерация · демо</a>
+        <a href="#/admin/catalog">Структура каталога</a>
+        <a href="#/catalog">Каталог</a>
+      </nav>
+    </div>
+  </footer>
+
   <script src="demo-data.js"></script>
   <script src="catalog.js"></script>
 </body>
