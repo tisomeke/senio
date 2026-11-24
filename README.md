@@ -2,7 +2,7 @@
   
 <br>
   
-<img src="static/img/logo/logo-dark.svg" alt="Senio logo" width="260">
+<img src="static/img/logo/logo-dark-mode.svg" alt="Senio logo" width="260">
 
 # SENIO
 Веб-библиотека учебных материалов,
