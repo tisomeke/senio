@@ -56,8 +56,8 @@ Actions (`.github/workflows/ci.yml`). В `README.md` есть описание
     может расходиться с текущим планом.
 -   `dev-docs/user-stories/` — US-01–US-13 и `US-MOC.md`.
 -   `docs/README.en.md` — заготовка английской версии README (WIP).
--   `.agents/skills/` — Skill'и для ИИ-агентов (например,
-    `docs-maintenance`).
+-   `.agents/skills/` — Skill'и для ИИ-агентов (`docs-maintenance`,
+    `unslop`).
 -   `static/img/mascot/` — изображения и логотипы маскота Senka.
 -   `.gitignore` — исключения для Python/Django, окружений, тестовых
     артефактов и других локальных файлов.
@@ -253,6 +253,9 @@ docker compose run --rm web python manage.py check    # проверка кон�
 10. В итоговом ответе кратко перечисли изменения, фактически выполненные
     проверки и оставшиеся ограничения. Не утверждай, что работа
     выполнена или проверена, если это не так.
+
+Для визуального аудита или редизайна интерфейса вызывай Skill
+`$unslop` (`.agents/skills/unslop/SKILL.md`) и следуй его процессу.
 
 ## 10. Документация
 
