@@ -19,6 +19,7 @@ class University(models.Model):
     def __str__(self):
         return self.name
 
+
 class Institute(models.Model):
     """Institute (faculty) that belongs to a university."""
 
@@ -43,6 +44,7 @@ class Institute(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class EducationalProgram(models.Model):
     """Educational program offered by an institute."""
@@ -88,6 +90,7 @@ class Discipline(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class CurriculumEntry(models.Model):
     """Link between a program and a discipline with a semester number.
@@ -141,7 +144,7 @@ class MaterialType(models.Model):
     Types are kept in a dedicated table instead of free-form tags: the
     list is managed in the admin, names stay consistent and variants
     like "test" and "control work" do not multiply. Materials
-    themselves are not implemented yet.
+    are modeled separately in the materials app.
     """
 
     name = models.CharField(max_length=100)
