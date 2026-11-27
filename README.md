@@ -2,11 +2,8 @@
   
 <br>
   
-<picture>
-    <source media="(prefers-color-scheme: dark)" srcset="static/img/logo/logo-light.svg#gh-dark-mode-only">
-    <source media="(prefers-color-scheme: light)" srcset="static/img/logo/logo-dark.svg#gh-light-mode-only">
-    <img src="static/img/logo/logo-dark.svg" alt="Senio logo" width="260">
-</picture>
+<img src="static/img/logo/logo-dark.svg#gh-light-mode-only" alt="Senio logo" width="260">
+<img src="static/img/logo/logo-light.svg#gh-dark-mode-only" alt="Senio logo" width="260">
 
 # SENIO
 Веб-библиотека учебных материалов,
