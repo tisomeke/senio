@@ -2,7 +2,8 @@
   
 <br>
   
-<img src="../static/img/logo/logo-dark.svg" alt="Senio logo" width="260">
+<img src="../static/img/logo/logo-dark.svg#gh-light-mode-only" alt="Senio logo" width="260">
+<img src="../static/img/logo/logo-light.svg#gh-dark-mode-only" alt="Senio logo" width="260">
 
 # SENIO
 A web library of educational materials,
@@ -20,7 +21,6 @@ disciplines.
 </div>
 <div>
 <!-- Бейджи -->
-
 
 <img src="https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white" alt="Python">
 <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
