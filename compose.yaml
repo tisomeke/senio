@@ -9,8 +9,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-        db:
-          condition: service_healthy
+      db:
+        condition: service_healthy
   db:
     image: postgres:18-alpine
     environment:
@@ -21,10 +21,37 @@ services:
       - postgres_data:/var/lib/postgresql
     restart: always
     healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
-        interval: 5s
-        timeout: 5s
-        retries: 5
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    restart: always
+
+  createbucket:
+    image: quay.io/minio/mc:latest
+    env_file:
+      - .env
+    depends_on:
+      minio:
+        condition: service_started
+    entrypoint: >
+      /bin/sh -c " until mc alias set local http://minio:9000 $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD; do
+        echo 'waiting for minio'; sleep 2;
+      done && mc mb --ignore-existing local/$$AWS_STORAGE_BUCKET_NAME "
+    restart: "no"
 
 volumes:
   postgres_data:
+  minio_data:

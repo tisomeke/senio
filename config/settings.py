@@ -142,6 +142,8 @@ if os.environ.get("AWS_STORAGE_BUCKET_NAME"):
     AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME") or None
     AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL") or None
 
+    AWS_S3_ADDRESSING_STYLE = "path"
+
     AWS_DEFAULT_ACL = None
     AWS_QUERYSTRING_AUTH = True
     AWS_S3_FILE_OVERWRITE = False
